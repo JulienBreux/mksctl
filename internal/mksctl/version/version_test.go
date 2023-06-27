@@ -46,7 +46,7 @@ func TestPrintVersionJSON(t *testing.T) {
 	w := &bytes.Buffer{}
 
 	ver.Print(w, false, "json")
-	r = regexp.MustCompile(`{"version_server":"n/a","version_cli":"dev","commit":"n/a","date":"n/a"}`)
+	r = regexp.MustCompile(`{"version_server":"n/a","version_cli":"dev","commit":"n/a","date":"[0-9T:Z-]+"}`)
 	assert.Regexp(t, r, w.String())
 }
 
@@ -55,7 +55,7 @@ func TestPrintVersionYAML(t *testing.T) {
 	w := &bytes.Buffer{}
 
 	ver.Print(w, false, "yaml")
-	r = regexp.MustCompile(`versionServer: n/a\nversionCLI: dev\ncommit: n/a\ndate: n/a\n`) //[0-9T:Z-]+
+	r = regexp.MustCompile(`versionServer: n/a\nversionCLI: dev\ncommit: n/a\ndate: "[0-9T:Z-]+"\n`)
 	assert.Regexp(t, r, w.String())
 }
 
@@ -64,6 +64,6 @@ func TestPrintVersionText(t *testing.T) {
 	w := &bytes.Buffer{}
 
 	ver.Print(w, false, "")
-	r = regexp.MustCompile(`versionServer: n/a\nversionCLI: dev\ncommit: n/a\ndate: n/a\n`)
+	r = regexp.MustCompile(`versionServer: n/a\nversionCLI: dev\ncommit: n/a\ndate: "[0-9T:Z-]+"\n`)
 	assert.Regexp(t, r, w.String())
 }
