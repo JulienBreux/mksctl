@@ -5,7 +5,7 @@ import (
 )
 
 // Run returns the root command
-func Run(cmd *cobra.Command, args []string) error {
+func Run(_ *cobra.Command, _ []string) error {
 	// TODO: CLI Business logic
 	return nil
 }

@@ -18,7 +18,7 @@ upgrade-deps: ## [project] Upgrade all dependencies
 
 build: ## [binary] Build local binary
 	mkdir -p ./bin
-	CGO_ENABLED=0 go build -ldflags='-s -w -X github.com/JulienBreux/${NAME}/pkg/version.Version=${VERSION} -X github.com/JulienBreux/${NAME}/pkg/version.Commit=${COMMIT} -X github.com/JulienBreux/${NAME}/pkg/version.RawDate=${DATE}' -o ${BINDIR}/app ./cmd/${NAME}
+	CGO_ENABLED=0 go build -ldflags='-s -w -X github.com/JulienBreux/${NAME}/internal/${NAME}/version.VersionCLI=${VERSION} -X github.com/JulienBreux/${NAME}/internal/${NAME}/version.Commit=${COMMIT} -X github.com/JulienBreux/${NAME}/internal/${NAME}/version.RawDate=${DATE}' -o ${BINDIR}/app ./cmd/${NAME}
 
 run: build ## [binary] Run local binary
 	./bin/app

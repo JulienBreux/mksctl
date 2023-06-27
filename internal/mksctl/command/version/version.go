@@ -29,7 +29,7 @@ func New() *cobra.Command {
 }
 
 // run returns the command
-func run(cmd *cobra.Command, args []string) error {
+func run(cmd *cobra.Command, _ []string) error {
 	o, err := cmd.Parent().PersistentFlags().GetString("output")
 	if err != nil {
 		return err
