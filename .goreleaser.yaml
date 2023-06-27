@@ -1,0 +1,56 @@
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - main: ./cmd/mksctl/main.go
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    ldflags:
+      - -s -w -X github.com/JulienBreux/mksctl/internal/mksctl/version.VersionCLI={{.Version}} -X github.com/JulienBreux/mksctl/internal/mksctl/version.Commit={{.Commit}} -X github.com/JulienBreux/mksctl/internal/mksctl/version.RawDate={{.Date}}
+
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+    - goos: windows
+      format: zip
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+dockers:
+  - image_templates:
+      - 'julienbreux/mksctl:{{ .Tag }}'
+      - 'julienbreux/mksctl:latest'
+      - 'ghcr.io/julienbreux/mksctl:{{ .Tag }}'
+      - 'ghcr.io/julienbreux/mksctl:latest'
+    dockerfile: Dockerfile.release
+    build_flag_templates:
+      - --pull
+      - --platform=linux/amd64
+      - --label=org.opencontainers.image.name={{ .ProjectName }}
+      - --label=org.opencontainers.image.description={{ .ProjectName }}
+      - --label=org.opencontainers.image.url=https://github.com/JulienBreux/mksctl
+      - --label=org.opencontainers.image.source=https://github.com/JulienBreux/mksctl
+      - --label=org.opencontainers.image.version={{ .Version }}
+      - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
+      - --label=org.opencontainers.image.revision={{ .FullCommit }}
+      - --label=org.opencontainers.image.licenses=MIT
+
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
