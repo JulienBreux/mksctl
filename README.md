@@ -1,4 +1,4 @@
-## 🕹️ Microcks CLI – `mksctl`
+## 🕹️ Microcks command line utility – `mksctl`
 
 [![Build status](https://github.com/JulienBreux/mksctl/workflows/Go/badge.svg)](https://github.com/JulienBreux/mksctl/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/JulienBreux/mksctl)](https://goreportcard.com/report/github.com/JulienBreux/mksctl)
