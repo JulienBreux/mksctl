@@ -1,0 +1,9 @@
+.github/
+bin/
+.codebeatsettings
+.editorconfig
+.gitignore
+.vscode
+coverage.out
+README.md
+LICENSE
