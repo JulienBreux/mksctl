@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path/filepath"
 
 	cmdAuth "github.com/JulienBreux/mksctl/internal/mksctl/command/auth"
 	cmdRoot "github.com/JulienBreux/mksctl/internal/mksctl/command/root"
 	cmdVersion "github.com/JulienBreux/mksctl/internal/mksctl/command/version"
+	"github.com/JulienBreux/mksctl/internal/mksctl/config"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 const (
@@ -22,27 +21,14 @@ const (
 
 var (
 	cfgPathFile string
-	cfgSubPath  = ".config/mksctl/"
-	cfgType     = "yml"
-	cfgFile     = "mksctl.yml"
+
+	cmd = &cobra.Command{
+		Use:   appName,
+		Short: appShortDesc,
+		Long:  appLongDesc,
+		RunE:  cmdRoot.Run,
+	}
 )
-
-// initConfig reads in config file and ENV variables if set.
-func initConfig() {
-	if cfgPathFile != "" {
-		viper.SetConfigFile(cfgPathFile)
-	} else {
-		viper.AddConfigPath(cfgPath())
-		viper.SetConfigType(cfgType)
-		viper.SetConfigName(cfgFile)
-	}
-
-	viper.AutomaticEnv()
-
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
-	}
-}
 
 type IOs struct {
 	In       io.Reader
@@ -56,14 +42,6 @@ func New(ios *IOs, args ...string) *cobra.Command {
 	// Cobra initialization
 	cobra.OnInitialize(initConfig)
 
-	// Create root command
-	cmd := &cobra.Command{
-		Use:   appName,
-		Short: appShortDesc,
-		Long:  appLongDesc,
-		RunE:  cmdRoot.Run,
-	}
-
 	// Setters
 	cmd.SetIn(ios.In)
 	cmd.SetOut(ios.Out)
@@ -71,7 +49,8 @@ func New(ios *IOs, args ...string) *cobra.Command {
 	cmd.SetArgs(args)
 
 	// Add flags
-	flags(cmd)
+	cmd.Flags().StringVarP(&cfgPathFile, "config", "c", config.FullFilePath(), "configuration file")
+	cmd.PersistentFlags().StringP("output", "o", "", "Output format, one of 'yaml', 'json', 'toml' or 'xml'.")
 
 	// Add subcommands
 	cmd.AddCommand(cmdVersion.New())
@@ -80,17 +59,9 @@ func New(ios *IOs, args ...string) *cobra.Command {
 	return cmd
 }
 
-func flags(cmd *cobra.Command) {
-	cmd.Flags().StringVarP(&cfgPathFile, "config", "c", filepath.Join(cfgPath(), cfgFile), "configuration file")
-	cmd.PersistentFlags().StringP("output", "o", "", "Output format, one of 'yaml', 'json', 'toml' or 'xml'.")
-}
-
-func cfgPath() string {
-	// Home directory
-	homeDir, err := os.UserHomeDir()
-	cobra.CheckErr(err)
-
-	return filepath.Join(homeDir, cfgSubPath)
+func initConfig() {
+	config.Init(cfgPathFile)
+	_ = config.Read()
 }
 
 func recoverAndExit() {

@@ -13,18 +13,17 @@ const (
 
 var (
 	clientOnly = false
-)
 
-// New returns a command to print version
-func New() *cobra.Command {
-	cmd := &cobra.Command{
+	cmd = &cobra.Command{
 		Use:   cmdName,
 		Short: cmdShortDesc,
 		RunE:  run,
 	}
+)
 
+// New returns a command to print version
+func New() *cobra.Command {
 	cmd.Flags().BoolVar(&clientOnly, "client", false, "If true, shows client version only (no server required).")
-
 	return cmd
 }
 
