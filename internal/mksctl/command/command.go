@@ -53,13 +53,7 @@ type IOs struct {
 func New(ios *IOs, args ...string) *cobra.Command {
 	defer func() {
 		if r := recover(); r != nil {
-			// TODO: Improve error message color
-			fmt.Println("Internal " + appName + " error")
-			// TODO: Add logger at debug level
-			// TODO: Add "tips" option
-			// TODO: Get URL from outside
-			fmt.Println("➡ Please report here: " + appIssueURL)
-			os.Exit(1)
+			recoverAndExit(r)
 		}
 	}()
 
@@ -100,4 +94,14 @@ func cfgPath() string {
 	cobra.CheckErr(err)
 
 	return filepath.Join(homeDir, cfgSubPath)
+}
+
+func recoverAndExit(_ any) {
+	// TODO: Improve error message color
+	fmt.Println("Internal " + appName + " error")
+	// TODO: Add logger at debug level
+	// TODO: Add "tips" option
+	// TODO: Get URL from outside
+	fmt.Println("➡ Please report here: " + appIssueURL)
+	os.Exit(1)
 }
