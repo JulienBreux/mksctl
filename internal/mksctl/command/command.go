@@ -51,11 +51,7 @@ type IOs struct {
 
 // Execute executes command
 func New(ios *IOs, args ...string) *cobra.Command {
-	defer func() {
-		if r := recover(); r != nil {
-			recoverAndExit(r)
-		}
-	}()
+	defer recoverAndExit()
 
 	// Cobra initialization
 	cobra.OnInitialize(initConfig)
@@ -68,6 +64,7 @@ func New(ios *IOs, args ...string) *cobra.Command {
 		RunE:  cmdRoot.Run,
 	}
 
+	// Setters
 	cmd.SetIn(ios.In)
 	cmd.SetOut(ios.Out)
 	cmd.SetErr(ios.Err)
@@ -96,12 +93,14 @@ func cfgPath() string {
 	return filepath.Join(homeDir, cfgSubPath)
 }
 
-func recoverAndExit(_ any) {
-	// TODO: Improve error message color
-	fmt.Println("Internal " + appName + " error")
-	// TODO: Add logger at debug level
-	// TODO: Add "tips" option
-	// TODO: Get URL from outside
-	fmt.Println("➡ Please report here: " + appIssueURL)
-	os.Exit(1)
+func recoverAndExit() {
+	if r := recover(); r != nil {
+		// TODO: Improve error message color
+		fmt.Println("Internal " + appName + " error")
+		// TODO: Add logger at debug level
+		// TODO: Add "tips" option
+		// TODO: Get URL from outside
+		fmt.Println("➡ Please report here: " + appIssueURL)
+		os.Exit(1)
+	}
 }
