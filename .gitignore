@@ -16,6 +16,9 @@ dist/
 cover.out
 cover.html
 
+# Working stuff
+go.work*
+
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
