@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-	// ios :=
 	cmd := command.New(
 		&command.IOs{
 			In:  os.Stdin,
