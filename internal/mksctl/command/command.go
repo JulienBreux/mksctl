@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	cmdAuth "github.com/JulienBreux/mksctl/internal/mksctl/command/auth"
 	cmdRoot "github.com/JulienBreux/mksctl/internal/mksctl/command/root"
 	cmdVersion "github.com/JulienBreux/mksctl/internal/mksctl/command/version"
 	"github.com/spf13/cobra"
@@ -78,6 +79,7 @@ func New(in io.Reader, out, errIO io.Writer, args ...string) *cobra.Command {
 
 	// Add subcommands
 	cmd.AddCommand(cmdVersion.New())
+	cmd.AddCommand(cmdAuth.New())
 
 	return cmd
 }
