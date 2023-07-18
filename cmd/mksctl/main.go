@@ -7,7 +7,14 @@ import (
 )
 
 func main() {
-	cmd := command.New(os.Stdin, os.Stdout, os.Stderr)
+	// ios :=
+	cmd := command.New(
+		&command.IOs{
+			In:  os.Stdin,
+			Out: os.Stdout,
+			Err: os.Stderr,
+		},
+	)
 	if err := cmd.Execute(); err != nil {
 		command.PrintError(os.Stderr, err)
 		os.Exit(1)

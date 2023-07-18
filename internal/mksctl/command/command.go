@@ -44,8 +44,13 @@ func initConfig() {
 	}
 }
 
+type IOs struct {
+	In       io.Reader
+	Out, Err io.Writer
+}
+
 // Execute executes command
-func New(in io.Reader, out, errIO io.Writer, args ...string) *cobra.Command {
+func New(ios *IOs, args ...string) *cobra.Command {
 	defer func() {
 		if r := recover(); r != nil {
 			// TODO: Improve error message color
@@ -69,9 +74,9 @@ func New(in io.Reader, out, errIO io.Writer, args ...string) *cobra.Command {
 		RunE:  cmdRoot.Run,
 	}
 
-	cmd.SetIn(in)
-	cmd.SetOut(out)
-	cmd.SetErr(errIO)
+	cmd.SetIn(ios.In)
+	cmd.SetOut(ios.Out)
+	cmd.SetErr(ios.Err)
 	cmd.SetArgs(args)
 
 	// Add flags
