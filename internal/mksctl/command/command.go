@@ -20,8 +20,6 @@ const (
 )
 
 var (
-	cfgPathFile string
-
 	cmd = &cobra.Command{
 		Use:   appName,
 		Short: appShortDesc,
@@ -39,7 +37,7 @@ type IOs struct {
 func New(ios *IOs, args ...string) *cobra.Command {
 	defer recoverAndExit()
 
-	// Cobra initialization
+	// Initialize configuration
 	cobra.OnInitialize(initConfig)
 
 	// Setters
@@ -49,7 +47,7 @@ func New(ios *IOs, args ...string) *cobra.Command {
 	cmd.SetArgs(args)
 
 	// Add flags
-	cmd.Flags().StringVarP(&cfgPathFile, "config", "c", config.FullFilePath(), "configuration file")
+	cmd.Flags().StringVarP(&config.OverrideConfigFile, "config", "c", config.FullFilePath(), "configuration file")
 	cmd.PersistentFlags().StringP("output", "o", "", "Output format, one of 'yaml', 'json', 'toml' or 'xml'.")
 
 	// Add subcommands
@@ -60,8 +58,10 @@ func New(ios *IOs, args ...string) *cobra.Command {
 }
 
 func initConfig() {
-	config.Init(cfgPathFile)
-	_ = config.Read()
+	if err := config.Init(); err != nil {
+		fmt.Printf("Error:\n%v", err)
+		os.Exit(1)
+	}
 }
 
 func recoverAndExit() {
