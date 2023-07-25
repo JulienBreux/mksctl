@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/JulienBreux/mksctl/internal/mksctl/api"
+	api "github.com/JulienBreux/mksctl/internal/mksctl/api/gen"
 )
 
 const (
