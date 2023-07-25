@@ -3,6 +3,7 @@ package config
 import (
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/mcuadros/go-defaults"
 	"github.com/mitchellh/mapstructure"
@@ -25,7 +26,10 @@ var (
 type config struct {
 	Initialized bool
 
-	ServerURL string `mapstructure:"server_url"`
+	APIURL     string        `mapstructure:"api_url"`
+	APITimeout time.Duration `mapstructure:"api_timeout" default:"5s"`
+
+	AuthEnabled bool `mapstructure:"auth_enabled" default:"false"`
 
 	AuthServerURL string `mapstructure:"auth_server_url"`
 
