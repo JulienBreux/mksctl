@@ -56,9 +56,18 @@ func preRun(_ *cobra.Command, args []string) error {
 }
 
 func run(_ *cobra.Command, _ []string) error {
+	// Check authentication configuration
 	if !config.Config.AuthEnabled {
 		fmt.Printf("Authentication is disabled, you're aleardy connected!\n")
 		os.Exit(0)
 	}
-	return server.New().Run()
+
+	// Create server
+	srv, err := server.New()
+	if err != nil {
+		return err
+	}
+
+	// Run server
+	return srv.Run()
 }
