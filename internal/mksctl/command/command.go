@@ -1,7 +1,6 @@
 package command
 
 import (
-	"fmt"
 	"io"
 	"os"
 
@@ -38,42 +37,47 @@ type IOs struct {
 func New(ios *IOs, args ...string) *cobra.Command {
 	defer recoverAndExit()
 
-	// Initialize configuration
 	cobra.OnInitialize(initConfig)
 
-	// Setters
+	cmd = initSetters(cmd, ios, args...)
+	cmd = initFlags(cmd)
+	cmd = initSubCommands(cmd)
+
+	return cmd
+}
+
+func initSetters(cmd *cobra.Command, ios *IOs, args ...string) *cobra.Command {
 	cmd.SetIn(ios.In)
 	cmd.SetOut(ios.Out)
 	cmd.SetErr(ios.Err)
 	cmd.SetArgs(args)
+	return cmd
+}
 
-	// Add flags
+func initFlags(cmd *cobra.Command) *cobra.Command {
 	cmd.Flags().StringVarP(&config.OverrideConfigFile, "config", "c", config.FullFilePath(), "configuration file")
 	cmd.PersistentFlags().StringP("output", "o", "", "Output format, one of 'yaml', 'json', 'toml' or 'xml'.")
+	return cmd
+}
 
-	// Add subcommands
+func initSubCommands(cmd *cobra.Command) *cobra.Command {
 	cmd.AddCommand(cmdVersion.New())
 	cmd.AddCommand(cmdAuth.New())
 	cmd.AddCommand(cmdImp.New())
-
 	return cmd
 }
 
 func initConfig() {
 	if err := config.Init(); err != nil {
-		fmt.Printf("Error:\n%v", err)
+		cmd.Printf("Error:\n%v", err)
 		os.Exit(1)
 	}
 }
 
 func recoverAndExit() {
 	if r := recover(); r != nil {
-		// TODO: Improve error message color
-		fmt.Println("Internal " + appName + " error")
-		// TODO: Add logger at debug level
-		// TODO: Add "tips" option
-		// TODO: Get URL from outside
-		fmt.Println("➡ Please report here: " + appIssueURL)
+		cmd.Println("Internal " + appName + " error")
+		cmd.Println("➡ Please report here: " + appIssueURL)
 		os.Exit(1)
 	}
 }
