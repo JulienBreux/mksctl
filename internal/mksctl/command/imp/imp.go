@@ -109,16 +109,14 @@ func prepareBody(f file) (string, *bytes.Buffer, error) {
 	writer := multipart.NewWriter(body)
 	contentType := writer.FormDataContentType()
 
-	part, err := writer.CreateFormFile("file", filepath.Base(f.path))
-	if err != nil {
-		return contentType, nil, err
-	}
-
-	if _, err = io.Copy(part, f.file); err != nil {
-		return contentType, nil, err
-	}
+	defer writer.Close()
 
 	if err := writer.WriteField("mainArtifact", strconv.FormatBool(f.mainArtifact)); err != nil {
+		return contentType, nil, err
+	}
+
+	writer, err := prepareBodyFile(f, writer)
+	if err != nil {
 		return contentType, nil, err
 	}
 
@@ -127,6 +125,19 @@ func prepareBody(f file) (string, *bytes.Buffer, error) {
 	}
 
 	return contentType, body, nil
+}
+
+func prepareBodyFile(f file, w *multipart.Writer) (*multipart.Writer, error) {
+	part, err := w.CreateFormFile("file", filepath.Base(f.path))
+	if err != nil {
+		return nil, err
+	}
+
+	if _, err = io.Copy(part, f.file); err != nil {
+		return nil, err
+	}
+
+	return w, nil
 }
 
 func argsToFiles(args []string) ([]file, error) {
