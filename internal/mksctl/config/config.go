@@ -35,7 +35,7 @@ type config struct {
 
 	AuthCallbackPort int `mapstructure:"auth_callback_port" default:"8283"`
 
-	AuthClientRealm  string `mapstructure:"auth_client_id" default:"mickrocks"`
+	AuthClientRealm  string `mapstructure:"auth_client_id" default:"microcks"`
 	AuthClientID     string `mapstructure:"auth_client_id" default:"mksctl"`
 	AuthClientSecret string `mapstructure:"auth_client_secret"` // TODO: Move to github.com/zalando/go-keyring
 

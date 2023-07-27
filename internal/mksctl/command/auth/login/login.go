@@ -13,7 +13,7 @@ import (
 
 const (
 	cmdName      = "login URL"
-	cmdShortDesc = "Authorize Microcks CLI to access the Mickrocks server using user credentials."
+	cmdShortDesc = "Authorize Microcks CLI to access the Microcks server using user credentials."
 )
 
 var (

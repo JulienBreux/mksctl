@@ -18,7 +18,7 @@ import (
 
 const (
 	cmdName      = "import FILE:PRIMARY ..."
-	cmdShortDesc = "Import API artifacts into Mickrocks."
+	cmdShortDesc = "Import API artifacts into Microcks."
 
 	exactNSubArgs = 2
 )
@@ -48,6 +48,7 @@ func New() *cobra.Command {
 	return cmd
 }
 
+// preRun helps to check arguments
 func preRun(_ *cobra.Command, args []string) error {
 	if _, err := argsToFiles(args); err != nil {
 		return err
@@ -78,8 +79,6 @@ func run(_ *cobra.Command, args []string) error {
 
 	return nil
 }
-
-////////// TODO: MOVE!
 
 func upload(c client.Client, f file) error {
 	contentType, body, err := prepareBody(f)
@@ -162,7 +161,7 @@ func argToFile(arg string) (*file, error) {
 	a := strings.Split(arg, ":")
 	// Check sub arguments length
 	if len(a) != exactNSubArgs {
-		return nil, fmt.Errorf("unable to decode argument")
+		return nil, fmt.Errorf("unable to decode argument") // TODO: Improve error message
 	}
 	// Check primary argument value
 	mainArtifact, err := strconv.ParseBool(a[1])

@@ -7,7 +7,7 @@ import (
 
 const (
 	cmdName      = "auth"
-	cmdShortDesc = "Manage credentials for the Mickrocks CLI."
+	cmdShortDesc = "Manage credentials for the Microcks CLI."
 )
 
 // New returns the auth command

@@ -7,6 +7,7 @@ import (
 	cmdAuth "github.com/JulienBreux/mksctl/internal/mksctl/command/auth"
 	cmdImp "github.com/JulienBreux/mksctl/internal/mksctl/command/imp"
 	cmdRoot "github.com/JulienBreux/mksctl/internal/mksctl/command/root"
+	cmdTest "github.com/JulienBreux/mksctl/internal/mksctl/command/test"
 	cmdVersion "github.com/JulienBreux/mksctl/internal/mksctl/command/version"
 	"github.com/JulienBreux/mksctl/internal/mksctl/config"
 	"github.com/spf13/cobra"
@@ -64,6 +65,7 @@ func initSubCommands(cmd *cobra.Command) *cobra.Command {
 	cmd.AddCommand(cmdVersion.New())
 	cmd.AddCommand(cmdAuth.New())
 	cmd.AddCommand(cmdImp.New())
+	cmd.AddCommand(cmdTest.New())
 	return cmd
 }
 
