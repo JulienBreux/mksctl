@@ -1,4 +1,4 @@
-ARG GO_VERSION=1.20.5
+ARG GO_VERSION=1.21
 ARG APP=mksctl
 
 FROM golang:${GO_VERSION}-alpine AS build
