@@ -12,13 +12,13 @@ import (
 )
 
 const (
-	cmdName      = "login URL"
+	cmdUse       = "login URL"
 	cmdShortDesc = "Authorize Microcks CLI to access the Microcks server using user credentials."
 )
 
 var (
 	cmd = &cobra.Command{
-		Use:   cmdName,
+		Use:   cmdUse,
 		Short: cmdShortDesc,
 		Args: cobra.MatchAll(
 			cobra.ExactArgs(1),
@@ -29,7 +29,7 @@ var (
 	}
 )
 
-// New returns the login command
+// New returns the auth login sub command
 func New() *cobra.Command {
 	return cmd
 }
@@ -47,7 +47,7 @@ func preRun(_ *cobra.Command, args []string) error {
 		return err
 	}
 
-	// Save configuation
+	// Save configuration
 	config.Config.AuthEnabled = authConfig.Enabled
 	config.Config.APIURL = cli.APIURL()
 	config.Config.AuthClientRealm = authConfig.Realm
@@ -58,7 +58,7 @@ func preRun(_ *cobra.Command, args []string) error {
 func run(_ *cobra.Command, _ []string) error {
 	// Check authentication configuration
 	if !config.Config.AuthEnabled {
-		fmt.Printf("Authentication is disabled, you're aleardy connected!\n")
+		fmt.Printf("Authentication is disabled, you're already connected!\n")
 		os.Exit(0)
 	}
 
