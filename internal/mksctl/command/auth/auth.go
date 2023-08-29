@@ -6,18 +6,19 @@ import (
 )
 
 const (
-	cmdName      = "auth"
+	cmdUse       = "auth"
 	cmdShortDesc = "Manage credentials for the Microcks CLI."
+)
+
+var (
+	cmd = &cobra.Command{
+		Use:   cmdUse,
+		Short: cmdShortDesc,
+	}
 )
 
 // New returns the auth command
 func New() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   cmdName,
-		Short: cmdShortDesc,
-	}
-
 	cmd.AddCommand(cmdLogin.New())
-
 	return cmd
 }
