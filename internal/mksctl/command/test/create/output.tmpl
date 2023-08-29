@@ -1,0 +1,20 @@
+Test version: {{.Version}}
+Test number: {{.TestNumber}}
+Test date: {{.TestDate}}
+
+Service ID: {{cyan .ServiceId}}
+Result ID: {{cyan .Id}}
+
+In progress: {{if .InProgress}}{{green "yes"}}{{else}}{{red "no"}}{{end}}
+Success: {{if .InProgress}}{{green "yes"}}{{else}}{{red "no"}}{{end}}
+Elapsed time: {{.ElapsedTime}}
+
+Runner type: {{.RunnerType}}
+
+Endpoint URL: {{cyan .TestedEndpoint}}
+Endpoint timeout: {{dateFromTimestamp .Timeout}}
+
+Results:
+{{range .TestCaseResults}}
+ {{cyan "▸"}} {{.OperationName}} (success: {{if .Success}}{{green "yes"}}{{else}}{{red "no"}}{{end}})
+{{- end}}

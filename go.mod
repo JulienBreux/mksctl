@@ -6,6 +6,7 @@ require (
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/deepmap/oapi-codegen v1.13.0
 	github.com/drewstinnett/gout/v2 v2.1.2
+	github.com/fatih/color v1.15.0
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8
