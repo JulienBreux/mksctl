@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	api "github.com/JulienBreux/mksctl/internal/mksctl/api/gen"
+	api "github.com/JulienBreux/microcks-client-go"
 )
 
 const (

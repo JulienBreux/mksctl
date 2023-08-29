@@ -1,6 +1,6 @@
 package client
 
-import api "github.com/JulienBreux/mksctl/internal/mksctl/api/gen"
+import api "github.com/JulienBreux/microcks-client-go"
 
 var (
 	RunnerTypes = []api.TestRunnerType{

@@ -7,8 +7,8 @@ import (
 	"text/template"
 	"time"
 
+	api "github.com/JulienBreux/microcks-client-go"
 	"github.com/JulienBreux/mksctl/internal/mksctl/api/client"
-	api "github.com/JulienBreux/mksctl/internal/mksctl/api/gen"
 	"github.com/JulienBreux/mksctl/internal/mksctl/config"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"

@@ -45,7 +45,7 @@ type config struct {
 
 // Init helps to initialize configuration system based on Viper
 func Init() error {
-	// Set Viper behaviour
+	// Set Viper behavior
 	viper.AutomaticEnv()
 	viper.SetEnvPrefix(EnvPrefix)
 	viper.SetConfigName(Name)
