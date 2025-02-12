@@ -1,7 +1,9 @@
 package version
 
 import (
+	"encoding/json"
 	"io"
+	"net/http"
 	"time"
 
 	"github.com/drewstinnett/gout/v2"
@@ -54,8 +56,15 @@ func Print(w io.Writer, clientOnly bool, outputFormat string) {
 		Date:          RawDate,
 	}
 	if !clientOnly {
-		// TODO: Fetch server version
-		v.VersionServer = VersionServer
+		type Version struct {
+			 VersionId string `json:"versionId"`
+		}
+		var version Version
+		resp, err := http.Get("http://localhost:8585/api/version/info")
+		if err == nil {
+			json.NewDecoder(resp.Body).Decode(&version)
+			v.VersionServer = version.VersionId
+		}
 	}
 	g.MustPrint(v)
 }
